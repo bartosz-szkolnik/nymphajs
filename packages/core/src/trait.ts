@@ -1,6 +1,7 @@
 import type { Entity } from './entity';
-import { Level } from './level';
+import type { Level } from './level';
 import type { CollisionDirection } from './tile-collider';
+import type { CollisionMatch } from './tile-resolver';
 
 type Task = () => void;
 
@@ -10,7 +11,7 @@ export class Trait {
 
   update(entity: Entity, deltaTime: number, level: Level) {}
 
-  obstruct(entity: Entity, side: CollisionDirection) {}
+  obstruct(entity: Entity, side: CollisionDirection, match: CollisionMatch) {}
 
   collides(us: Entity, them: Entity) {}
 

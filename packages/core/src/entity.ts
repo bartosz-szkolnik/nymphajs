@@ -1,12 +1,11 @@
 import { BoundingBox } from './bounding-box';
-import { Level } from './level';
 import { Vec2 } from './math';
-import { CollisionDirection } from './tile-collider';
-import { Trait } from './trait';
+import type { Level } from './level';
+import type { CollisionDirection } from './tile-collider';
+import type { CollisionMatch } from './tile-resolver';
+import type { Trait } from './trait';
 
 export class Entity {
-  canCollide = true;
-
   pos = new Vec2(0, 0);
   vel = new Vec2(0, 0);
   size = new Vec2(0, 0);
@@ -36,9 +35,9 @@ export class Entity {
     this.lifetime += deltaTime;
   }
 
-  obstruct(side: CollisionDirection) {
+  obstruct(side: CollisionDirection, match: CollisionMatch) {
     this.traits.forEach((trait) => {
-      trait.obstruct(this, side);
+      trait.obstruct(this, side, match);
     });
   }
 
