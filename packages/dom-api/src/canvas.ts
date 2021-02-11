@@ -9,8 +9,8 @@ export class CanvasModule implements RenderingModule {
     const ctx = canvas.getContext('2d')!;
     ctx.imageSmoothingEnabled = false;
 
-    canvas.width = 640;
-    canvas.height = 640;
+    canvas.width = 256;
+    canvas.height = 240;
 
     this.canvas = canvas;
     this.context = ctx;
