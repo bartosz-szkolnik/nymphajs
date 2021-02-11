@@ -49,4 +49,10 @@ export class Entity {
       trait.collides(this, candidate);
     });
   }
+
+  finalize() {
+    this.traits.forEach((trait) => {
+      trait.finalize();
+    });
+  }
 }
