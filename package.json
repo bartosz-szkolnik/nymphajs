@@ -1,0 +1,16 @@
+{
+  "name": "nymphajs",
+  "version": "0.0.0",
+  "main": "index.js",
+  "author": "Bartosz Szkolnik",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/**"
+  ],
+  "scripts": {
+    "watch:core": "yarn workspace @nymphajs/core watch",
+    "watch:dom-api": "yarn workspace @nymphajs/dom-api watch",
+    "watch:common": "yarn workspace @nymphajs/common watch"
+  }
+}

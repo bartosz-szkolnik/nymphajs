@@ -1,0 +1,11 @@
+{
+  "name": "@nymphajs/dom-api",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "author": "Bartosz Szkolnik",
+  "license": "MIT",
+  "module": "./dist/",
+  "scripts": {
+    "watch": "tsc --watch"
+  }
+}
