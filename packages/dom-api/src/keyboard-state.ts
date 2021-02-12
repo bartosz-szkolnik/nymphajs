@@ -9,6 +9,8 @@ export class KeyboardState {
   // Holds the callback functions for a key code
   keyMap = new Map<KeyboardEvent['code'], (keyState: KeyState) => void>();
 
+  constructor(private countKeyPresses = true) {}
+
   addMapping(
     code: KeyboardEvent['code'],
     callback: (keyState: KeyState) => void
@@ -25,6 +27,11 @@ export class KeyboardState {
     event.preventDefault();
 
     const keyState = event.type === 'keydown' ? PRESSED : RELEASED;
+    if (!this.countKeyPresses) {
+      this.keyMap.get(code)!(keyState);
+      return;
+    }
+
     if (this.keyStates.get(code) === keyState) {
       return;
     }
