@@ -1,5 +1,5 @@
-const PRESSED = 1;
-const RELEASED = 0;
+export const PRESSED = 1;
+export const RELEASED = 0;
 type KeyState = typeof PRESSED | typeof RELEASED;
 
 export class KeyboardState {

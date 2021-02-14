@@ -11,3 +11,4 @@ export * from './animations';
 export * from './entity-collider';
 export * from './level';
 export * from './compositor';
+export * from './event-emitter';
