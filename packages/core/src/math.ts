@@ -5,6 +5,10 @@ export class Vec2 {
     this.x = x;
     this.y = y;
   }
+
+  serialize() {
+    return { x: this.x, y: this.y };
+  }
 }
 
 export class Matrix<T> {

@@ -11,6 +11,8 @@
   "scripts": {
     "watch:core": "yarn workspace @nymphajs/core watch",
     "watch:dom-api": "yarn workspace @nymphajs/dom-api watch",
-    "watch:common": "yarn workspace @nymphajs/common watch"
+    "watch:common": "yarn workspace @nymphajs/common watch",
+    "watch:network": "yarn workspace @nymphajs/network watch",
+    "watch:server": "yarn workspace @nymphajs/server watch"
   }
 }

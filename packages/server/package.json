@@ -1,0 +1,17 @@
+{
+  "name": "@nymphajs/server",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "author": "Bartosz Szkolnik",
+  "license": "MIT",
+  "module": "./dist",
+  "scripts": {
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "ws": "^7.4.3"
+  },
+  "devDependencies": {
+    "@types/ws": "^7.4.0"
+  }
+}
