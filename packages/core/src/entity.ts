@@ -1,11 +1,13 @@
 import { BoundingBox } from './bounding-box';
 import { Vec2 } from './math';
-import type { Level } from './level';
+import type { GameContext, Level } from './level';
 import type { CollisionDirection } from './tile-collider';
 import type { CollisionMatch } from './tile-resolver';
 import type { Trait } from './trait';
+import type { AudioBoard } from './audio-board';
 
 export class Entity {
+  audio: AudioBoard | null = null;
   pos = new Vec2(0, 0);
   vel = new Vec2(0, 0);
   size = new Vec2(0, 0);
@@ -27,12 +29,15 @@ export class Entity {
     return this.traits.has(name);
   }
 
-  update(deltaTime: number, level: Level) {
+  update(gameContext: GameContext, level: Level) {
     this.traits.forEach((trait) => {
-      trait.update(this, deltaTime, level);
+      trait.update(this, gameContext, level);
+      if (this.audio) {
+        trait.playSounds(this.audio, gameContext.audioContext);
+      }
     });
 
-    this.lifetime += deltaTime;
+    this.lifetime += gameContext.deltaTime;
   }
 
   obstruct(side: CollisionDirection, match: CollisionMatch) {

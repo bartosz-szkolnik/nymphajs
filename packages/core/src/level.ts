@@ -12,6 +12,11 @@ export type CollisionTile = {
   type?: 'ground';
 };
 
+export type GameContext = {
+  audioContext: AudioContext;
+  deltaTime: number;
+};
+
 export class Level {
   compositor = new Compositor();
   entities = new Set<Entity>();
@@ -21,9 +26,9 @@ export class Level {
   entityCollider = new EntityCollider(this.entities);
   tileCollider: TileCollider | null = null;
 
-  update(deltaTime: number) {
+  update(gameContext: GameContext) {
     this.entities.forEach((entity) => {
-      entity.update(deltaTime, this);
+      entity.update(gameContext, this);
     });
 
     this.entities.forEach((entity) => {
@@ -34,7 +39,7 @@ export class Level {
       entity.finalize();
     });
 
-    this.totalTime += deltaTime;
+    this.totalTime += gameContext.deltaTime;
   }
 
   setCollisionGrid(matrix: Matrix<CollisionTile>) {

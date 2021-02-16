@@ -12,3 +12,4 @@ export * from './entity-collider';
 export * from './level';
 export * from './compositor';
 export * from './event-emitter';
+export * from './audio-board';
