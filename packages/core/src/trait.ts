@@ -8,7 +8,6 @@ import type { CollisionMatch } from './tile-resolver';
 type Task = () => void;
 
 export class Trait {
-  protected sounds = new Set<string>();
   private tasks: Task[] = [];
   events = new EventEmitter();
 
@@ -27,13 +26,5 @@ export class Trait {
   finalize() {
     this.tasks.forEach((task) => task());
     this.tasks = [];
-  }
-
-  playSounds(audioBoard: AudioBoard, audioContext: AudioContext) {
-    this.sounds.forEach((name) => {
-      audioBoard.playAudio(name, audioContext);
-    });
-
-    this.sounds.clear();
   }
 }

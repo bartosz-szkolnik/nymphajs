@@ -6,6 +6,11 @@ export class Vec2 {
     this.y = y;
   }
 
+  copy(vec: Vec2) {
+    this.x = vec.x;
+    this.y = vec.y;
+  }
+
   serialize() {
     return { x: this.x, y: this.y };
   }

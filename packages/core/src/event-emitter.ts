@@ -13,7 +13,7 @@ export class EventEmitter<T = string> {
     return listener;
   }
 
-  emit(name: T, ...data: any) {
+  emit(name: T, ...data: unknown[]) {
     this.listeners.forEach((listener) => {
       if (listener.name === name) {
         listener.callback(...data);

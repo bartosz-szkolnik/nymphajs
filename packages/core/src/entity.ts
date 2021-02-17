@@ -8,6 +8,8 @@ import type { AudioBoard } from './audio-board';
 
 export class Entity {
   audio: AudioBoard | null = null;
+  sounds = new Set<string>();
+
   pos = new Vec2(0, 0);
   vel = new Vec2(0, 0);
   size = new Vec2(0, 0);
@@ -15,7 +17,7 @@ export class Entity {
   bounds = new BoundingBox(this.pos, this.size, this.offset);
   lifetime = 0;
 
-  traits: Map<string, Trait> = new Map();
+  traits = new Map<string, Trait>();
 
   addTrait(name: string, trait: Trait) {
     this.traits.set(name, trait);
@@ -32,10 +34,11 @@ export class Entity {
   update(gameContext: GameContext, level: Level) {
     this.traits.forEach((trait) => {
       trait.update(this, gameContext, level);
-      if (this.audio) {
-        trait.playSounds(this.audio, gameContext.audioContext);
-      }
     });
+
+    if (this.audio) {
+      this.playSounds(this.audio, gameContext.audioContext);
+    }
 
     this.lifetime += gameContext.deltaTime;
   }
@@ -58,5 +61,13 @@ export class Entity {
     this.traits.forEach((trait) => {
       trait.finalize();
     });
+  }
+
+  playSounds(audioBoard: AudioBoard, audioContext: AudioContext) {
+    this.sounds.forEach((name) => {
+      audioBoard.playAudio(name, audioContext);
+    });
+
+    this.sounds.clear();
   }
 }
