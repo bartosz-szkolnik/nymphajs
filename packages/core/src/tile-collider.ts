@@ -1,17 +1,25 @@
 import type { Entity } from './entity';
-import { Matrix } from './math';
+import type { Matrix } from './math';
 import { TileResolver } from './tile-resolver';
+import type { GameContext, Level } from './level';
+import type { TileCollisionHandler } from './tile-collision-handler';
 
 export type CollisionDirection = 'bottom' | 'top' | 'right' | 'left';
 
 export class TileCollider<T = unknown> {
-  tiles: TileResolver<T>;
+  resolvers: TileResolver[] = [];
+  handlers = new Map<string, TileCollisionHandler>();
 
-  constructor(tileMatrix: Matrix<Record<string, T>>) {
-    this.tiles = new TileResolver(tileMatrix);
+  addGrid(tileMatrix: Matrix<Record<string, T>>) {
+    const tileResolver = new TileResolver(tileMatrix);
+    this.resolvers.push(tileResolver);
   }
 
-  checkY(entity: Entity) {
+  addCollisionHandler(handler: TileCollisionHandler) {
+    this.handlers.set(handler.tileType, handler);
+  }
+
+  checkY(entity: Entity, gameContext: GameContext, level: Level) {
     let y;
     if (entity.vel.y > 0) {
       y = entity.bounds.bottom;
@@ -21,31 +29,27 @@ export class TileCollider<T = unknown> {
       return;
     }
 
-    const matches = this.tiles.searchByRange(
-      entity.bounds.left,
-      entity.bounds.right,
-      y,
-      y
-    );
+    for (const resolver of this.resolvers) {
+      const matches = resolver.searchByRange(
+        entity.bounds.left,
+        entity.bounds.right,
+        y,
+        y
+      );
 
-    matches.forEach((match) => {
-      if (match.tile.type !== 'ground') {
-        return;
-      }
+      matches.forEach((match) => {
+        // @TODO: Fix later
+        const type = match.tile.type as string;
+        const handler = this.handlers.get(type);
 
-      if (entity.vel.y > 0) {
-        if (entity.bounds.bottom > match.y1) {
-          entity.obstruct('bottom', match);
+        if (handler) {
+          handler.handleY({ entity, gameContext, match, resolver, level });
         }
-      } else if (entity.vel.y < 0) {
-        if (entity.bounds.top < match.y2) {
-          entity.obstruct('top', match);
-        }
-      }
-    });
+      });
+    }
   }
 
-  checkX(entity: Entity) {
+  checkX(entity: Entity, gameContext: GameContext, level: Level) {
     let x;
     if (entity.vel.x > 0) {
       x = entity.bounds.right;
@@ -55,27 +59,23 @@ export class TileCollider<T = unknown> {
       return;
     }
 
-    const matches = this.tiles.searchByRange(
-      x,
-      x,
-      entity.bounds.top,
-      entity.bounds.bottom
-    );
+    for (const resolver of this.resolvers) {
+      const matches = resolver.searchByRange(
+        x,
+        x,
+        entity.bounds.top,
+        entity.bounds.bottom
+      );
 
-    matches.forEach((match) => {
-      if (match.tile.type !== 'ground') {
-        return;
-      }
+      matches.forEach((match) => {
+        // @TODO: Fix later
+        const type = match.tile.type as string;
+        const handler = this.handlers.get(type);
 
-      if (entity.vel.x > 0) {
-        if (entity.bounds.right > match.x1) {
-          entity.obstruct('right', match);
+        if (handler) {
+          handler.handleX({ entity, gameContext, match, resolver, level });
         }
-      } else if (entity.vel.x < 0) {
-        if (entity.bounds.left < match.x2) {
-          entity.obstruct('left', match);
-        }
-      }
-    });
+      });
+    }
   }
 }

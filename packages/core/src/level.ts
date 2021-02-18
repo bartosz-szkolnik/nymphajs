@@ -1,20 +1,20 @@
 import { Compositor } from './compositor';
 import { Entity } from './entity';
 import { EntityCollider } from './entity-collider';
-import { Matrix } from './math';
 import { TileCollider } from './tile-collider';
 
-export type GameTile = {
+export type Tile = {
   name: string;
-};
-
-export type CollisionTile = {
   type?: 'ground';
 };
+
+export type Factory = () => Entity;
+export type EntityFactories = Record<string, Factory>;
 
 export type GameContext = {
   audioContext: AudioContext;
   deltaTime: number;
+  entityFactory: EntityFactories;
 };
 
 export class Level {
@@ -24,7 +24,7 @@ export class Level {
   totalTime = 0;
 
   entityCollider = new EntityCollider(this.entities);
-  tileCollider: TileCollider | null = null;
+  tileCollider = new TileCollider();
 
   update(gameContext: GameContext) {
     this.entities.forEach((entity) => {
@@ -40,9 +40,5 @@ export class Level {
     });
 
     this.totalTime += gameContext.deltaTime;
-  }
-
-  setCollisionGrid(matrix: Matrix<CollisionTile>) {
-    this.tileCollider = new TileCollider(matrix);
   }
 }

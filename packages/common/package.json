@@ -1,7 +1,7 @@
 {
   "name": "@nymphajs/common",
   "version": "0.0.0",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "author": "Bartosz Szkolnik",
   "license": "MIT",
   "module": "./dist/",

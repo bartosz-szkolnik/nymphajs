@@ -1,4 +1,3 @@
-import type { AudioBoard } from './audio-board';
 import type { Entity } from './entity';
 import { EventEmitter } from './event-emitter';
 import type { GameContext, Level } from './level';

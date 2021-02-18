@@ -2,6 +2,8 @@ import { Matrix } from './math';
 
 export type CollisionMatch<T = unknown> = {
   tile: Record<string, T>;
+  indexX: number;
+  indexY: number;
   y1: number;
   y2: number;
   x1: number;
@@ -9,10 +11,7 @@ export type CollisionMatch<T = unknown> = {
 };
 
 export class TileResolver<T = unknown> {
-  constructor(
-    private matrix: Matrix<Record<string, T>>,
-    public tileSize = 16
-  ) {}
+  constructor(public matrix: Matrix<Record<string, T>>, public tileSize = 16) {}
 
   toIndex(pos: number) {
     return Math.floor(pos / this.tileSize);
@@ -42,11 +41,13 @@ export class TileResolver<T = unknown> {
 
       return {
         tile,
+        indexX,
+        indexY,
         y1,
         y2,
         x1,
         x2,
-      } as CollisionMatch;
+      } as CollisionMatch<T>;
     }
   }
 
@@ -55,7 +56,7 @@ export class TileResolver<T = unknown> {
   }
 
   searchByRange(x1: number, x2: number, y1: number, y2: number) {
-    const matches: CollisionMatch[] = [];
+    const matches: CollisionMatch<T>[] = [];
 
     this.toIndexRange(x1, x2).forEach((indexX) => {
       this.toIndexRange(y1, y2).forEach((indexY) => {

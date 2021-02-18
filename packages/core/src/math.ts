@@ -66,6 +66,14 @@ export class Matrix<T> {
     }
   }
 
+  delete(x: number, y: number) {
+    const col = this.grid[x];
+    if (col) {
+      // @ts-ignore @TODO: Fix later
+      delete col[y];
+    }
+  }
+
   static fromArray<T>(array: Array<Array<T>>) {
     const grid = new Matrix<T>();
     array.forEach((row, x) => {
