@@ -3,8 +3,9 @@ import { Vec2 } from './math';
 import type { GameContext, Level } from './level';
 import type { CollisionDirection } from './tile-collider';
 import type { CollisionMatch } from './tile-resolver';
-import type { Trait } from './trait';
+import { Trait } from './trait';
 import type { AudioBoard } from './audio-board';
+import { EventBuffer } from './event-buffer';
 
 export class Entity {
   audio: AudioBoard | null = null;
@@ -18,6 +19,7 @@ export class Entity {
   lifetime = 0;
 
   traits = new Map<string, Trait>();
+  events = new EventBuffer();
 
   addTrait(name: string, trait: Trait) {
     this.traits.set(name, trait);
@@ -58,9 +60,13 @@ export class Entity {
   }
 
   finalize() {
+    this.events.emit(Trait.EVENT_TASK);
+
     this.traits.forEach((trait) => {
-      trait.finalize();
+      trait.finalize(this);
     });
+
+    this.events.clear();
   }
 
   playSounds(audioBoard: AudioBoard, audioContext: AudioContext) {
