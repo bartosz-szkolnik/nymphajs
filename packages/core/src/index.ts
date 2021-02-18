@@ -14,3 +14,5 @@ export * from './compositor';
 export * from './event-emitter';
 export * from './audio-board';
 export * from './tile-collision-handler';
+export * from './music-player';
+export * from './music-controller';

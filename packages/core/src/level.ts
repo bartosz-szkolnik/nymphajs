@@ -1,6 +1,7 @@
 import { Compositor } from './compositor';
 import { Entity } from './entity';
 import { EntityCollider } from './entity-collider';
+import { MusicController } from './music-controller';
 import { TileCollider } from './tile-collider';
 
 export type Tile = {
@@ -22,6 +23,8 @@ export class Level {
   entities = new Set<Entity>();
   gravity = 1500;
   totalTime = 0;
+
+  musicController = new MusicController();
 
   entityCollider = new EntityCollider(this.entities);
   tileCollider = new TileCollider();
