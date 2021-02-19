@@ -3,8 +3,8 @@ import type { GameContext, Level } from './level';
 import type { CollisionDirection } from './tile-collider';
 import type { CollisionMatch } from './tile-resolver';
 
-type Task = () => void;
-type Listener<T = string | symbol, D = unknown> = {
+type Task = (entity: Entity) => void;
+type Listener<T = string | symbol, D = any> = {
   name: T;
   callback: (...data: D[]) => void;
   count: number;
