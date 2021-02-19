@@ -1,6 +1,7 @@
 import { Compositor } from './compositor';
 import { Entity } from './entity';
 import { EntityCollider } from './entity-collider';
+import { EventEmitter } from './event-emitter';
 import { MusicController } from './music-controller';
 import { TileCollider } from './tile-collider';
 
@@ -23,6 +24,8 @@ export class Level {
   entities = new Set<Entity>();
   gravity = 1500;
   totalTime = 0;
+
+  events = new EventEmitter();
 
   musicController = new MusicController();
 

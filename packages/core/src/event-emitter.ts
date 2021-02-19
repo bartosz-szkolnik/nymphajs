@@ -1,9 +1,9 @@
-export type Listener<T = string, D = unknown> = {
+export type Listener<T = string | symbol, D = unknown> = {
   name: T;
   callback: (...data: D[]) => void;
 };
 
-export class EventEmitter<T = string> {
+export class EventEmitter<T = string | symbol> {
   private listeners = new Set<Listener<T>>();
 
   listen<D = unknown>(name: T, callback: (...data: D[]) => void) {
