@@ -23,7 +23,7 @@ export type GameContext = {
 function focusPlayer(level: Level) {
   // @TODO: needs to be somewhere else, cause here we dont have access to game-specific traits
   // prettier-ignore
-  const players = [...level.entities].filter((entity) => entity.hasTrait('player'));
+  const players = [...level.entities].filter((entity) => entity.isPlayer);
   for (const player of players) {
     level.camera.position.x = Math.max(0, player.pos.x - 100);
   }

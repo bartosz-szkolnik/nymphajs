@@ -14,8 +14,6 @@ export class Trait {
   static EVENT_TASK = Symbol('task');
   private listeners: Listener[] = [];
 
-  constructor(public name: string) {}
-
   update(entity: Entity, gameContext: GameContext, level: Level) {}
 
   listen(

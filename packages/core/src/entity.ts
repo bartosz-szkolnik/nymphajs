@@ -18,19 +18,21 @@ export class Entity {
   bounds = new BoundingBox(this.pos, this.size, this.offset);
   lifetime = 0;
 
-  traits = new Map<string, Trait>();
+  isPlayer = false;
+
+  traits = new Map<Function, Trait>();
   events = new EventBuffer();
 
-  addTrait(name: string, trait: Trait) {
-    this.traits.set(name, trait);
+  addTrait(trait: Trait) {
+    this.traits.set(trait.constructor, trait);
   }
 
-  getTrait<T extends Trait>(name: string) {
-    return this.traits.get(name)! as T;
+  get<T extends Trait>(traitClass: new () => T) {
+    return this.traits.get(traitClass)! as T;
   }
 
-  hasTrait(name: string) {
-    return this.traits.has(name);
+  has<T extends Trait>(traitClass: new () => T) {
+    return this.traits.has(traitClass);
   }
 
   update(gameContext: GameContext, level: Level) {
