@@ -1,3 +1,4 @@
+import { Camera } from './camera';
 import { Compositor } from './compositor';
 import { Entity } from './entity';
 import { EntityCollider } from './entity-collider';
@@ -15,15 +16,27 @@ export type EntityFactories = Record<string, Factory>;
 
 export type GameContext = {
   audioContext: AudioContext;
+  videoContext: CanvasRenderingContext2D;
   deltaTime: number;
   entityFactory: EntityFactories;
 };
 
+function focusPlayer(level: Level) {
+  // @TODO: needs to be somewhere else, cause here we dont have access to game-specific traits
+  // prettier-ignore
+  const players = [...level.entities].filter((entity) => entity.hasTrait('player'));
+  for (const player of players) {
+    level.camera.position.x = Math.max(0, player.pos.x - 100);
+  }
+}
+
 export class Level {
+  name = '';
   compositor = new Compositor();
   entities = new Set<Entity>();
   gravity = 1500;
   totalTime = 0;
+  camera = new Camera();
 
   events = new EventEmitter();
 
@@ -45,6 +58,12 @@ export class Level {
       entity.finalize();
     });
 
+    focusPlayer(this);
+
     this.totalTime += gameContext.deltaTime;
+  }
+
+  draw({ videoContext }: GameContext) {
+    this.compositor.draw(videoContext, this.camera);
   }
 }
