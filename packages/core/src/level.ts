@@ -1,9 +1,8 @@
 import { Camera } from './camera';
-import { Compositor } from './compositor';
 import { Entity } from './entity';
 import { EntityCollider } from './entity-collider';
-import { EventEmitter } from './event-emitter';
 import { MusicController } from './music-controller';
+import { Scene } from './scene';
 import { TileCollider } from './tile-collider';
 
 export type Tile = {
@@ -30,15 +29,14 @@ function focusPlayer(level: Level) {
   }
 }
 
-export class Level {
+export class Level extends Scene {
+  static EVENT_TRIGGER = Symbol('trigger');
+
   name = '';
-  compositor = new Compositor();
   entities = new Set<Entity>();
   gravity = 1500;
   totalTime = 0;
   camera = new Camera();
-
-  events = new EventEmitter();
 
   musicController = new MusicController();
 
@@ -65,5 +63,9 @@ export class Level {
 
   draw({ videoContext }: GameContext) {
     this.compositor.draw(videoContext, this.camera);
+  }
+
+  pause() {
+    this.musicController.pause();
   }
 }

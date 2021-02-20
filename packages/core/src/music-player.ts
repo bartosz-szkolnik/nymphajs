@@ -10,9 +10,7 @@ export class MusicPlayer {
   }
 
   playTrack(name: string) {
-    for (const audio of this.tracks.values()) {
-      audio.pause();
-    }
+    this.pauseAll();
 
     const track = this.tracks.get(name);
     if (track) {
@@ -22,10 +20,9 @@ export class MusicPlayer {
     return track;
   }
 
-  stopTrack() {
-    const track = [...this.tracks.values()].find((track) => !track.paused);
-    if (track) {
-      track.pause();
+  pauseAll() {
+    for (const audio of this.tracks.values()) {
+      audio.pause();
     }
   }
 }

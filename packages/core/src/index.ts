@@ -17,3 +17,6 @@ export * from './tile-collision-handler';
 export * from './music-player';
 export * from './music-controller';
 export * from './input-router';
+export * from './scene-runner';
+export * from './scene';
+export * from './composition-scene';

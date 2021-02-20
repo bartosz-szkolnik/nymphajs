@@ -27,4 +27,10 @@ export class MusicController {
       }
     }
   }
+
+  pause() {
+    if (this.player) {
+      this.player.pauseAll();
+    }
+  }
 }
