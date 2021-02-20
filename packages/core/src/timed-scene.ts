@@ -1,7 +1,7 @@
 import type { GameContext } from './level';
 import { Scene } from './scene';
 
-export class CompositionScene extends Scene {
+export class TimedScene extends Scene {
   private countdown = 2;
 
   update({ deltaTime }: GameContext) {

@@ -19,4 +19,4 @@ export * from './music-controller';
 export * from './input-router';
 export * from './scene-runner';
 export * from './scene';
-export * from './composition-scene';
+export * from './timed-scene';
