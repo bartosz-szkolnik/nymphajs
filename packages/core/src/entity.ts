@@ -20,11 +20,11 @@ export class Entity {
 
   isPlayer = false;
 
-  traits = new Map<Function, Trait>();
+  traits = new Map<new () => Trait, Trait>();
   events = new EventBuffer();
 
   addTrait(trait: Trait) {
-    this.traits.set(trait.constructor, trait);
+    this.traits.set(trait.constructor as new () => Trait, trait);
   }
 
   get<T extends Trait>(traitClass: new () => T) {
